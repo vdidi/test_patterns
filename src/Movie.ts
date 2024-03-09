@@ -1,12 +1,11 @@
 export default class Movie {
     
     constructor (private title: string,
-        private year: string,
-        private released: string,
-        private director: string,
-        private awards: string,
-        private poster: string,) {
-
+        readonly year: string,
+        readonly released: string,
+        readonly director: string,
+        readonly awards: string,
+        readonly poster: string) {
     }
     
     getMovie (): Movie {
@@ -16,4 +15,5 @@ export default class Movie {
     getTitle (): string {
         return this.title;
     }
+
 }
