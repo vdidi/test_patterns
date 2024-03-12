@@ -2,9 +2,29 @@ import axios from "axios";
 import express, { Request, Response } from "express";
 import Movie from "./Movie";
 import PurchaseDAODatabase from "./PurchaseDAODatabase";
+const { AwsConfig } = require("../Credentials.js");
+import Purchase from "./domain/Purchase";
 
 const app = express();
 app.use(express.json());
+
+app.post("/purchase", async function name(req: Request, res: Response) {
+    const value = Math.round(Math.random() * 1000 * 10) / 10;
+    const purchase = Purchase.create(value);
+    const database = new PurchaseDAODatabase(AwsConfig);
+    const data = {
+        purchaseId: purchase.purchaseId, 
+        // userId: req.body.userId, 
+        userId: "1", 
+        // movieId: req.body.movieId, 
+        movieId: "1", 
+        value: purchase.value, 
+        date: purchase.date,
+        email: "email@teste.com"
+    }
+
+    await database.save(data);
+});
 
 app.get("/movies", async function name(req: Request, res: Response) {
     const url = "https://www.omdbapi.com/?t=batman&apikey=79b20910";
@@ -18,8 +38,8 @@ app.get("/movies", async function name(req: Request, res: Response) {
             response.data.Awards,
             response.data.Poster
         );
-        const database = new PurchaseDAODatabase();
-        await database.save(movie);
+        
+        console.log("Movie: ", movie);
     });
 });
 
