@@ -1,24 +1,23 @@
-import PurchaseDAO from "./PurchaseDAO";
-import crypto from "crypto";
+import Purchase from "../../domain/Purchase";
 import Aws from "aws-sdk";
+import PurchaseRepository from "../../repository/PurchaseRepository";
 //const { AwsConfig } = require("../Credentials.js");
 
 
-export default class PurchaseDAODatabase implements PurchaseDAO {
+export default class PurchaseDAODatabase implements PurchaseRepository {
     constructor (AwsConfig: any) {
         Aws.config.update(AwsConfig);
     }
 
-    async save(input: Input) {
+    async save(purchase: Purchase): Promise<void> {
         const dynamoDb = new Aws.DynamoDB.DocumentClient();
         const body = {
-            purchaseId: input.purchaseId,
-            userId: input.userId,
-            movieId: input.movieId, 
-            value: input.value,
-            date: input.date.toString(),
-            email: input.email
-
+            purchaseId: purchase.purchaseId,
+            userId: purchase.userId,
+            movieId: purchase.movieId, 
+            value: purchase.value,
+            date: purchase.date.toString(),
+            email: purchase.email
         }
 
         const params = {
@@ -27,9 +26,8 @@ export default class PurchaseDAODatabase implements PurchaseDAO {
         }
         try{
             const request = await dynamoDb.put(params).promise();
-            return request;
         } catch(err) {
-            console.log("error: ", err)
+            console.log("error: ", err); 
         }
     }
 }

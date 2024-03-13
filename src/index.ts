@@ -1,7 +1,7 @@
 import axios from "axios";
 import express, { Request, Response } from "express";
 import Movie from "./domain/Movie";
-import PurchaseDAODatabase from "./database/PurchaseDAODatabase";
+import PurchaseDAODatabase from "./infra/database/PurchaseRepositoryDatabase";
 const { AwsConfig } = require("../Credentials.js");
 import Purchase from "./domain/Purchase";
 
