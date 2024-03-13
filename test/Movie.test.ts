@@ -1,4 +1,4 @@
-import Movie from "../src/Movie"
+import Movie from "../src/domain/Movie"
 
 test("Deve criar um objeto da classe Movie", function (){
     const posterUrl = "https://m.media-amazon.com/images/M/MV5BZWQ0OTQ3ODctMmE0MS00ODc2LTg0ZTEtZWIwNTUxOGExZTQ4XkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_SX300.jpg";
