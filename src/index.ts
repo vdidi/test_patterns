@@ -1,36 +1,30 @@
 import axios from "axios";
 import express, { Request, Response } from "express";
 import Movie from "./domain/Movie";
-import PurchaseDAODatabase from "./infra/database/PurchaseRepositoryDatabase";
+import PurchaseRepositoryDatabase from "./infra/repository/PurchaseRepositoryDatabase";
 const { AwsConfig } = require("../Credentials.js");
-import Purchase from "./domain/Purchase";
+import MovieDAODatabase from "./infra/database/MovieDAODatabase";
+import MoviePurchase from "./application/usecases/MoviePurchase";
+import UserRepositoryDatabase from "./infra/repository/UserRepositoryDatabase";
 
 const app = express();
 app.use(express.json());
 
 app.post("/purchase", async function name(req: Request, res: Response) {
     const value = Math.round(Math.random() * 1000 * 10) / 10;
-    const purchase = Purchase.create(value);
-    const database = new PurchaseDAODatabase(AwsConfig);
-    const data = {
-        purchaseId: purchase.purchaseId, 
-        // userId: req.body.userId, 
-        userId: "1", 
-        // movieId: req.body.movieId, 
-        movieId: "1", 
-        value: purchase.value, 
-        date: purchase.date,
-        email: "email@teste.com"
-    }
-
-    await database.save(data);
+    const purchaseRepository = new PurchaseRepositoryDatabase(AwsConfig);
+    const userRepository = new UserRepositoryDatabase();
+    const purchase = new MoviePurchase(purchaseRepository, userRepository);
+    const purchaseId = purchase.execute(req.body.email, req.body.movieId, value)
+    
+    return res.status(200).json({mensagem: `Compra finalizada: id ${purchaseId}`});
 });
 
 app.get("/movies", async function name(req: Request, res: Response) {
     const url = "https://www.omdbapi.com/?t=batman&apikey=79b20910";
-
+    const database = new MovieDAODatabase();
     axios.get(url).then(async (response) => {
-        const movie = new Movie(
+        const movie = Movie.create(
             response.data.Title,
             response.data.Year,
             response.data.Released,
@@ -38,6 +32,8 @@ app.get("/movies", async function name(req: Request, res: Response) {
             response.data.Awards,
             response.data.Poster
         );
+
+        await database.save(movie);
         
         console.log("Movie: ", movie);
     });

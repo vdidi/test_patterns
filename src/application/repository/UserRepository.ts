@@ -1,4 +1,4 @@
-import User from "../domain/User";
+import User from "../../domain/User";
 
 export default interface UserRepository {
     save(input: any): Promise<any>;

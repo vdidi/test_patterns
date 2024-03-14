@@ -1,10 +1,8 @@
 import Purchase from "../../domain/Purchase";
 import Aws from "aws-sdk";
-import PurchaseRepository from "../../repository/PurchaseRepository";
-//const { AwsConfig } = require("../Credentials.js");
+import PurchaseRepository from "../../application/repository/PurchaseRepository";
 
-
-export default class PurchaseDAODatabase implements PurchaseRepository {
+export default class PurchaseRepositoryDatabase implements PurchaseRepository {
     constructor (AwsConfig: any) {
         Aws.config.update(AwsConfig);
     }
@@ -30,13 +28,4 @@ export default class PurchaseDAODatabase implements PurchaseRepository {
             console.log("error: ", err); 
         }
     }
-}
-
-type Input = {
-    purchaseId: string,
-    userId: string,
-    movieId: string, 
-    value: number,
-    email: string,
-    date: Date
 }

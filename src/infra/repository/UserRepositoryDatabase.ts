@@ -1,6 +1,6 @@
 import pgp from "pg-promise";
 import crypto from "crypto";
-import UserRepository from "../../repository/UserRepository";
+import UserRepository from "../../application/repository/UserRepository";
 import User from "../../domain/User";
 
 export default class UserRepositoryDatabase implements UserRepository {
