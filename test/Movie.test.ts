@@ -5,7 +5,7 @@ test("Deve criar um objeto da classe Movie", function (){
     const movie = Movie.create("Batman", "1999", "12 jun 1999", "Director", "Greammy", posterUrl);
 
     expect(movie).toBeDefined();
-    expect(Movie).toBe("Batman");
+    expect(movie.title).toBe("Batman");
     expect(movie.year).toBe("1999");
     expect(movie.released).toBe("12 jun 1999");
     expect(movie.director).toBe("Director");
