@@ -3,7 +3,7 @@ import express, { Request, Response } from "express";
 import Movie from "./domain/Movie";
 import PurchaseRepositoryDatabase from "./infra/repository/PurchaseRepositoryDatabase";
 const { AwsConfig } = require("../Credentials.js");
-import MovieDAODatabase from "./infra/database/MovieDAODatabase";
+import MovieDAODatabase from "./infra/repository/MovieRepositoryDatabase";
 import MoviePurchase from "./application/usecases/MoviePurchase";
 import UserRepositoryDatabase from "./infra/repository/UserRepositoryDatabase";
 

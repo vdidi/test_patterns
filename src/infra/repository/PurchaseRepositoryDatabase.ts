@@ -1,14 +1,16 @@
 import Purchase from "../../domain/Purchase";
-import Aws from "aws-sdk";
 import PurchaseRepository from "../../application/repository/PurchaseRepository";
+import CloudConnection from "../database/CloudConnection";
 
 export default class PurchaseRepositoryDatabase implements PurchaseRepository {
-    constructor (AwsConfig: any) {
-        Aws.config.update(AwsConfig);
+    connection: any;
+
+    constructor (readonly cloudConnection: CloudConnection) {
     }
 
-    async save(purchase: Purchase): Promise<void> {
-        const dynamoDb = new Aws.DynamoDB.DocumentClient();
+    async save(purchase: Purchase): Promise<any> {
+        const dynamoDb = this.cloudConnection.connect();
+
         const body = {
             purchaseId: purchase.purchaseId,
             userId: purchase.userId,
@@ -23,7 +25,8 @@ export default class PurchaseRepositoryDatabase implements PurchaseRepository {
             Item: body
         }
         try{
-            const request = await dynamoDb.put(params).promise();
+            const request = await dynamoDb.put(params);
+            return body;
         } catch(err) {
             console.log("error: ", err); 
         }

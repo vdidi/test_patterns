@@ -1,5 +1,5 @@
 import Purchase from "../../domain/Purchase";
 
 export default interface PurchaseRepository {
-    save(purchase: Purchase): Promise<void>;
+    save(purchase: Purchase): Promise<any>;
 }
