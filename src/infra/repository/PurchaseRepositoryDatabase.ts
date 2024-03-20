@@ -25,7 +25,7 @@ export default class PurchaseRepositoryDatabase implements PurchaseRepository {
             Item: body
         }
         try{
-            const request = await dynamoDb.put(params);
+            await dynamoDb.put(params).promise();
             return body;
         } catch(err) {
             console.log("error: ", err); 
